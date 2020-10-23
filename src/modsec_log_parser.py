@@ -27,7 +27,8 @@ class ModSecLogParser:
     def run(self):
         for line in fileinput.input(self.watch):
             log = LogEntry(string=line)
-            self.logs.append(log)
+            if log.id is not None:
+                self.logs.append(log)
         return self.logs
         self.sumarize()
 
