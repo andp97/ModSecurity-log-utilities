@@ -19,8 +19,8 @@ directly using the email address security@modsecurity.org.
 import re
 
 class LogEntry:
-    def __init__(self, string = None):
-        self.client = None
+    def __init__(self, string=None):
+        self.client = []
         self.matchMessage = None
         self.variable = None
         self.file = None
@@ -47,11 +47,13 @@ class LogEntry:
                     continue
                 b = b[0]
                 if len(b) > 1:
-                    if (b[0] == "tag"):
+                    if b[0] == "tag":
                         self.tags.append(b[1])
+                    elif b[0] == 'client':
+                        self.client.append(b[1])
                     else:
                         self.__dict__[b[0]] = b[1]
 
     def __repr__(self):
-        return str(self.id) + ": " + str(self.msg)
+        return str(self.id) + " " + str(self.msg if self.msg is not None else 'no_msg') + " " + str(self.client[1] if len(self.client) > 0 else "no_client")
 
